@@ -30,7 +30,7 @@ class BappPhpSdk
     public function create_order(
         $orderId, $amount, $body, $notifyUrl, $returnUrl, $extra = '', $orderIp = '', $amountType = 'CNY', $lang = 'zh_TW')
     {
-        $reqParam = [
+        $reqParam = array(
             'order_id' => $orderId,
             'amount' => $amount,
             'body' => $body,
@@ -42,7 +42,7 @@ class BappPhpSdk
             'time' => time() * 1000,
             'app_key' => $this->appKey,
             'lang' => $lang
-        ];
+        );
         $reqParam['sign'] = $this->create_sign($reqParam, $this->appSecret);
         $url = $this->BASE_URL . '/api/v2/pay';
         return $this->http_request($url, 'POST', $reqParam);
@@ -68,11 +68,11 @@ class BappPhpSdk
      */
     public function get_order($orderId)
     {
-        $reqParam = [
+        $reqParam = array(
             'order_id' => $orderId,
             'time' => time() * 1000,
             'app_key' => $this->appKey
-        ];
+        );
         $reqParam['sign'] = $this->create_sign($reqParam, $this->appSecret);
         $url = $this->BASE_URL . '/api/v2/order';
         return $this->http_request($url, 'GET', $reqParam);
@@ -97,7 +97,7 @@ class BappPhpSdk
         return strtolower(md5($signOriginStr . "app_secret=$appSecret"));
     }
 
-    private function http_request($url, $method = 'GET', $params = [])
+    private function http_request($url, $method = 'GET', $params = array())
     {
         $curl = curl_init();
 
@@ -116,7 +116,7 @@ class BappPhpSdk
 
         $output = curl_exec($curl);
         if (curl_errno($curl) > 0) {
-            return [];
+            return array();
         }
         curl_close($curl);
         $json = json_decode($output, true);
